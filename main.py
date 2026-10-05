@@ -83,7 +83,11 @@ class SandwichMachine:
             return False
 
     def make_sandwich(self, sandwich_size, order_ingredients):
-        """Deduct the required ingredients from the resources.
-           Hint: no output"""
+        """
+        Deducts required ingredients from resources and prints a confirmation message.
+        """
+        for item, amount in order_ingredients.items():
+            self.machine_resources[item] -= amount
+        print(f"{sandwich_size} sandwich is ready. Bon appetit!")
 
 ### Make an instance of SandwichMachine class and write the rest of the codes ###
