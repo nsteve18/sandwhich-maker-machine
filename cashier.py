@@ -1,37 +1,28 @@
-import data
-import sandwich_maker
-import cashier
+class Cashier:
+    def __init__(self):
+        pass
 
-# Assign data variables from module
-resources = data.resources
-recipes = data.recipes
+    def process_coins(self):
+        """
+        Prompts user for coins and returns the total calculated from coins inserted.
+        """
+        print("Please insert coins.")
+        large_dollars = int(input("how many large dollars?: "))
+        half_dollars = int(input("how many half dollars?: "))
+        quarters = int(input("how many quarters?: "))
+        nickels = int(input("how many nickels?: "))
 
-# Instantiate class objects
-sandwich_maker_instance = sandwich_maker.SandwichMaker(resources)
-cashier_instance = cashier.Cashier()
+        total = (large_dollars * 1.00) + (half_dollars * 0.50) + (quarters * 0.25) + (nickels * 0.05)
+        return round(total, 2)
 
-
-def main():
-    is_on = True
-
-    while is_on:
-        choice = input("What would you like? (small/ medium/ large/ off/ report): ").strip().lower()
-
-        if choice == "off":
-            is_on = False
-        elif choice == "report":
-            print(f"Bread: {sandwich_maker_instance.machine_resources['bread']} slice(s)")
-            print(f"Ham: {sandwich_maker_instance.machine_resources['ham']} slice(s)")
-            print(f"Cheese: {sandwich_maker_instance.machine_resources['cheese']} pound(s)")
-        elif choice in recipes:
-            sandwich_type = recipes[choice]
-            if sandwich_maker_instance.check_resources(sandwich_type["ingredients"]):
-                coins_inserted = cashier_instance.process_coins()
-                if cashier_instance.transaction_result(coins_inserted, sandwich_type["cost"]):
-                    sandwich_maker_instance.make_sandwich(choice, sandwich_type["ingredients"])
+    def transaction_result(self, coins, cost):
+        """
+        Returns True when the payment is accepted, or False if money is insufficient.
+        """
+        if coins >= cost:
+            change = round(coins - cost, 2)
+            print(f"Here is ${change} in change.")
+            return True
         else:
-            print("Invalid selection. Please try again.")
-
-
-if __name__ == "__main__":
-    main()
+            print("Sorry that's not enough money. Money refunded.")
+            return False
